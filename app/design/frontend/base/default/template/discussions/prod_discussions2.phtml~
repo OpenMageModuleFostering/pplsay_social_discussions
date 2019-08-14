@@ -1,14 +1,13 @@
-	<div class="container-fluid"><div id="PPLSAYContainer" class="row">
+	<div class="container-fluid"><div id="PPLSAYContainer" class="row"  style="padding-left: 1em; padding-right: 1em;" >
 			<script type="text/javascript">
+				var $j=jQuery.noConflict();
 					//uploading ppls js and css
 				var ppls_cdn_url = "<?php echo Mage::getModel('core/variable')->loadByCode('ppls_cdn_url')->getData('store_plain_value') ?>";
 				var productName =  "<?php echo $this->getProductName();?>";
-				var productID = "<?php echo $this->getProductId();?>";
+				var productID =  "<?php echo $this->getProductName();?>";
 				var baseUrl = "<?php echo Mage::getBaseUrl(); ?>";
 				var pplsCSS=document.createElement('link');
 				var headElem = document.getElementsByTagName("head")[0];
-				var packageName = "<?php echo Mage::getSingleton('core/design_package')->getPackageName();?>";
-				var themeName = "<?php echo Mage::getSingleton('core/design_package')->getTheme('frontend');?>";
      				pplsCSS.setAttribute("rel", "stylesheet");
 				pplsCSS.setAttribute("type", "text/css");
 				pplsCSS.setAttribute("href", ppls_cdn_url + "/css/internalStyle.css");
@@ -18,23 +17,18 @@
 				bsCSS.setAttribute("type", "text/css");
 				bsCSS.setAttribute("href", ppls_cdn_url + "/css/pplsay_bootstrap.min.css");
 				headElem.insertBefore(bsCSS,headElem.firstChild);
-				jQuery(document).ready(function() {
+			
+				$j(document).ready(function() {
 					conversationsObj = <?php   echo $this->productView(); ?>;
 	  			      	var pplsJS=document.createElement('script');
 				      	pplsJS.setAttribute("type","text/javascript");
-				      	pplsJS.setAttribute("src", ppls_cdn_url+ "/js/default/conversationsRenderer.js");
+				      	pplsJS.setAttribute("src", ppls_cdn_url+ "/js/conversationsRenderer.js");
 				      	document.getElementsByTagName("head")[0].appendChild(pplsJS);
 
 				});
 
 
 			</script>
-		</div>
-		<div id="PPLSAYLink" class="row" style="padding-left: 15px;">
-			<a href="http://pplsay.com" onclick = "window.open(this.href, 'mywin','left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;">
-				<span class="pplsay-label" style="font-weight:bold;font-size:13px">Powered by:</span>
-				<img style="" src="<?php echo $this->getPPLSayCdnURL();?>/images/logoLink.png" style="border:0;" alt="PPLSAY - Connecting to Crowd Voice">
-			</a> 
-		</div>
-	</div>
+	</div></div>
+
 

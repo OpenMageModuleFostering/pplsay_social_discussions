@@ -10,10 +10,12 @@ class PPLS_Discussions_Model_Virality extends Mage_Core_Model_Abstract
     public function discoverItem($productID,$productName,$productBrand,$productCategory)
     {
 	try{
-		$accountID= Mage::getModel('core/variable')->loadByCode('ppls_account_id')->getData('store_plain_value');
-		$client_url = Mage::getModel('core/variable')->loadByCode('ppls_web_services_url')->getData('store_plain_value').'/rest/conversations/ver1/discoverItems/'.$accountID;
+		$discussionsModel = Mage::getSingleton('discussions/discussions');
 
-		$itemParams = "[{\"custItemID\":\"$productID\",\"custItemName\":\"$productName\",\"custBrand\":\"$productBrand\",\"custCategory\":\"$productCategory\"}]";
+		$accountID= $discussionsModel->getPPLSayAccount();
+		$client_url = $discussionsModel->getPPLSayBaseURL().'/rest/conversations/ver1/discoverItems/'.$accountID;
+
+		$itemParams = "[{\"accountItemID\":\"$productID\",\"accountItemName\":\"$productName\",\"accountBrand\":\"$productBrand\",\"accountCategory\":\"$productCategory\"}]";
 
 
 
@@ -41,8 +43,9 @@ class PPLS_Discussions_Model_Virality extends Mage_Core_Model_Abstract
     public function initVirality($product)
     {
 	try{
-		$account_id= Mage::getModel('core/variable')->loadByCode('ppls_account_id')->getData('store_plain_value');
-		$client_url = Mage::getModel('core/variable')->loadByCode('ppls_web_services_url')->getData('store_plain_value').'/rest/conversations/count/'.urlencode($product->getName()).'/'.$account_id;
+		$discussionsModel = Mage::getSingleton('discussions/discussions');
+		$account_id= $discussionsModel->getPPLSayAccount();
+		$client_url = $discussionsModel->getPPLSayBaseURL().'/rest/conversations/count-by-id/'.$product->getId().'/'.$account_id;
 		$ch = curl_init($client_url);
 
     		curl_setopt($ch, CURLOPT_HEADER, 0);

@@ -37,7 +37,7 @@ class PPLS_Discussions_Block_Virality extends Mage_Core_Block_Template
 
 		}
 
-		if($thisProductDiscussionCount["status"]==4 && $discussionCounts==null)
+		if($thisProductDiscussionCount["status"]=="NOT_FOUND_ITEM" && $discussionCounts==null)
 		{
 			$this->sendToDiscovery($product,$model);
 			return;
@@ -45,7 +45,7 @@ class PPLS_Discussions_Block_Virality extends Mage_Core_Block_Template
 		}
 		else
 		{
-			if($thisProductDiscussionCount["status"]==0)
+			if($thisProductDiscussionCount["status"]=="SUCCESS")
 			{
 				$content = $thisProductDiscussionCount["content"];
 				$this->count=$content["count"];
@@ -83,7 +83,6 @@ class PPLS_Discussions_Block_Virality extends Mage_Core_Block_Template
 	public function getProductUrl($productId)
 	{
 		$_product = Mage::getModel('catalog/product')->load($productId);
-		$_categories = $_product->getCategoryIds();
-		return Mage::getBaseUrl()."discussions/discussions/list/id/".$productId."/category/".$_categories[0];
+		return $_product->getProductUrl();
 	}
 }

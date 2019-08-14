@@ -17,10 +17,10 @@ The flow:   product_price load event=> insertBlock observer => virality.phtml =>
 		/*get Block type*/
 		$_type = $_block->getType();
 		$_template = $_block->getTemplate();
-		$virality_block=$_block->getLayout()->createBlock('discussions/virality');
-		$virality_block->setTemplate('discussions/virality.phtml');
 	       /*Check block type*/
 		if ($_type == 'catalog/product_price' && $_template!='catalog/product/view/tierprices.phtml') {
+		    $virality_block=$_block->getLayout()->createBlock('discussions/virality');
+		    $virality_block->setTemplate('discussions/virality.phtml');
 		    /*Clone block instance*/
 		    $_child = clone $_block;
 		    /*set another type for block*/
@@ -30,6 +30,27 @@ The flow:   product_price load event=> insertBlock observer => virality.phtml =>
 		    /*set our template*/
 		    $_block->setTemplate('discussions/virality.phtml');
 		    $_block->setChild('virality',$virality_block);
+		}
+
+		if($_type =='catalog/product_view_tabs')
+		{
+		    $product = $_block->getParentBlock()->getProduct();
+		    $model = Mage::getSingleton('discussions/discussions');
+ 		    $model->setProductName($product->getName());
+ 		    $model->setProductId($product->getId());
+
+		    $discussions_block=$_block->getLayout()->createBlock('discussions/discussions');
+		    $discussions_block->setTemplate('discussions/discussions_tab.phtml');
+		    /*Clone block instance*/
+		    $_child = clone $_block;
+		    /*set another type for block*/
+		    $_child->setType('discussions/block');
+		    /*set child for block*/
+		    $_block->setChild('child', $_child);
+		    /*set our template*/
+		    $_block->setTemplate('discussions/discussions_tab.phtml');
+		    $_block->setChild('discussions',$discussions_block);
+			
 		}
 	
     }

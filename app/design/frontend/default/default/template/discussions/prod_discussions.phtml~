@@ -1,0 +1,4 @@
+<?php $this->getChild('child')->addTab("Discussions","Product Discussions","discussions/discussions","discussions/discussions.phtml"); ?>
+<?php echo $this->getChildHtml('child') ?>
+
+

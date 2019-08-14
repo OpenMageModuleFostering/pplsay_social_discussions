@@ -108,13 +108,6 @@ class PPLS_Discussions_Block_Discussions extends Mage_Core_Block_Template
 
     }
 
-    public function getPPLSayCdnURL()
-    {
-	$model = Mage::getSingleton('discussions/discussions');
-
-	return $model->getPPLSayCDNBaseURL();
-
-    }
 
 
 }

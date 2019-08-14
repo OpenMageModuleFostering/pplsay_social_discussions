@@ -1,3 +1,10 @@
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+     var jQuery= jQuery.noConflict();
+//]]>
+</script>
+<?php echo $this->getCssJsHtml() ?>
 	<div class="container-fluid"><div id="PPLSAYContainer" class="row">
 			<script type="text/javascript">
 					//uploading ppls js and css
@@ -18,12 +25,13 @@
 				bsCSS.setAttribute("type", "text/css");
 				bsCSS.setAttribute("href", ppls_cdn_url + "/css/pplsay_bootstrap.min.css");
 				headElem.insertBefore(bsCSS,headElem.firstChild);
+			
 				jQuery(document).ready(function() {
 					conversationsObj = <?php   echo $this->productView(); ?>;
 	  			      	var pplsJS=document.createElement('script');
 				      	pplsJS.setAttribute("type","text/javascript");
 				      	pplsJS.setAttribute("src", ppls_cdn_url+ "/js/default/conversationsRenderer.js");
-				      	document.getElementsByTagName("head")[0].appendChild(pplsJS);
+				      	headElem.appendChild(pplsJS);
 
 				});
 
@@ -32,9 +40,10 @@
 		</div>
 		<div id="PPLSAYLink" class="row" style="padding-left: 15px;">
 			<a href="http://pplsay.com" onclick = "window.open(this.href, 'mywin','left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;">
-				<span class="pplsay-label" style="font-weight:bold;font-size:13px">Powered by:</span>
+				<span class="pplsay-label" style="font-weight: bold;font-size:13px">Powered by:</span>
 				<img style="" src="<?php echo $this->getPPLSayCdnURL();?>/images/logoLink.png" style="border:0;" alt="PPLSAY - Connecting to Crowd Voice">
 			</a> 
 		</div>
 	</div>
+
 

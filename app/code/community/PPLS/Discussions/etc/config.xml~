@@ -2,7 +2,7 @@
 <config>
     <modules>
         <PPLS_Discussions>
-            <version>0.1.0</version>
+            <version>1.1.1</version>
         </PPLS_Discussions>
     </modules>
     <global>
@@ -44,33 +44,6 @@
                     </ppls_discussions>
                 </observers>
             </catalog_block_product_list_collection>
-            <catalog_block_product_list_collection>
-                <observers>
-                    <ppls_discussions>
-                        <type>model</type>
-                        <class>discussions/observer</class>
-                        <method>getDiscussionCounts</method>
-                    </ppls_discussions>
-                </observers>
-            </catalog_block_product_list_collection>
-                <observers>
-                    <ppls_discussions>
-                        <type>model</type>
-                        <class>discussions/observer</class>
-                        <method>getDiscussionCounts</method>
-                    </ppls_discussions>
-                </observers>
-            </catalog_block_product_list_collection>
->
->
-                <observers>
-                    <ppls_discussions>
-                        <type>model</type>
-                        <class>discussions/observer</class>
-                        <method>getDiscussionCounts</method>
-                    </ppls_discussions>
-                </observers>
-            </catalog_block_product_list_collection>
         </events>
 	<routers>
 		<discussions>
@@ -81,6 +54,16 @@
 			</args>
 		</discussions>
 	</routers>
+        <translate>
+            <modules>
+                <translations>
+                    <files>
+                        <default>PPLS_Discussions.csv</default>
+                    </files>
+                </translations>
+            </modules>
+        </translate>
+
     </frontend>
 </config>
 
