@@ -3,11 +3,13 @@ class PPLS_Discussions_Model_Discussions extends Mage_Core_Model_Abstract
 {
 	public $defaultPPLSayURL = "http://gateway.pplsay.com/gateway";
 	public $defaultPPLSayAccountID = 109;
+	$visibleProductAttributes;
 
 
 	protected function _construct()
 	{
 		$this->_init('discussions/discussions');
+		$this->initDiplableAttributes();
 	}
 
 
@@ -33,7 +35,8 @@ class PPLS_Discussions_Model_Discussions extends Mage_Core_Model_Abstract
 			curl_setopt($ch, CURLOPT_POSTFIELDS,$searchParams);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json','Content-Length: ' . strlen($searchParams)));
-			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT,2);                                                                  
+			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT,1);                                                                  
+			curl_setopt($ch, CURLOPT_TIMEOUT,3);                                                                  
 
 			$result = curl_exec($ch);
 			curl_close($ch);
@@ -79,7 +82,8 @@ class PPLS_Discussions_Model_Discussions extends Mage_Core_Model_Abstract
 			curl_setopt($ch, CURLOPT_POSTFIELDS,$productNamesStr);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json','Content-Length: ' . strlen($productNamesStr)));
-			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT,2);                                                                  
+			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT,0.5);                                                                  
+			curl_setopt($ch, CURLOPT_TIMEOUT,1);                                                                  
 
 			$result = curl_exec($ch);
 			$jsonResult = json_decode($result,true);
@@ -214,7 +218,7 @@ class PPLS_Discussions_Model_Discussions extends Mage_Core_Model_Abstract
 
 		try{
 			$product = Mage::getModel('catalog/product')->load($productId);
-			$productBrand = $product->getAttributeText('brand');
+			$productBrand = $product->getData("brand");
 			if($productBrand==null || $productBrand=="")
 			{
 				$productBrand = $product->getAttributeText('manufacturer');
@@ -255,5 +259,25 @@ class PPLS_Discussions_Model_Discussions extends Mage_Core_Model_Abstract
 
 	}
 
+	private function initDiplableAttributes()
+	{
+		$displayAttributes = array();
+		$attributes = Mage::getSingleton('eav/config')
+			    ->getEntityType(Mage_Catalog_Model_Product::ENTITY)
+			    ->getAttributeCollection()
+			    ->addSetInfo();
+
+		foreach ($attributes as $attribute)
+		{
+			  if ($attribute->getIsVisibleOnFront()) {
+				array_push($displayAttributes,  $attribute->getStoreLabel());
+			  }
+		}
+		
+		$this->visibleProductAttributes=$displayAttributes;
+
+
+
+	}
 
 }

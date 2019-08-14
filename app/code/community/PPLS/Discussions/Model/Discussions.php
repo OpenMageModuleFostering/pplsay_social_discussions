@@ -33,7 +33,8 @@ class PPLS_Discussions_Model_Discussions extends Mage_Core_Model_Abstract
 			curl_setopt($ch, CURLOPT_POSTFIELDS,$searchParams);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json','Content-Length: ' . strlen($searchParams)));
-			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT,2);                                                                  
+			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT,1);                                                                  
+			curl_setopt($ch, CURLOPT_TIMEOUT,3);                                                                  
 
 			$result = curl_exec($ch);
 			curl_close($ch);
@@ -79,7 +80,8 @@ class PPLS_Discussions_Model_Discussions extends Mage_Core_Model_Abstract
 			curl_setopt($ch, CURLOPT_POSTFIELDS,$productNamesStr);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json','Content-Length: ' . strlen($productNamesStr)));
-			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT,2);                                                                  
+			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT,0.5);                                                                  
+			curl_setopt($ch, CURLOPT_TIMEOUT,1);                                                                  
 
 			$result = curl_exec($ch);
 			$jsonResult = json_decode($result,true);
@@ -109,7 +111,8 @@ class PPLS_Discussions_Model_Discussions extends Mage_Core_Model_Abstract
 			curl_setopt($ch, CURLOPT_POSTFIELDS,$discussionParams);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json','Content-Length: ' . strlen($discussionParams)));
-			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT,2);                                                                  
+			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT,1);                                                                  
+			curl_setopt($ch, CURLOPT_TIMEOUT,3);                                                                  
 
 			$result = curl_exec($ch);
 			curl_close($ch);
@@ -147,7 +150,8 @@ class PPLS_Discussions_Model_Discussions extends Mage_Core_Model_Abstract
 			curl_setopt($ch,CURLOPT_POSTFIELDS,$postData);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json','Content-Length: ' .$postlength));
-			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT,2);                                                                  
+			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT,1);                                                                  
+			curl_setopt($ch, CURLOPT_TIMEOUT,3);                                                                  
 			$response = curl_exec($ch);
 
 			//close connection
@@ -239,7 +243,8 @@ class PPLS_Discussions_Model_Discussions extends Mage_Core_Model_Abstract
 			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
 			curl_setopt($ch, CURLOPT_POSTFIELDS,$itemParams);                                                                  
 	                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);    
-			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT,2);                                                                  
+			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT,1);                                                                  
+			curl_setopt($ch, CURLOPT_TIMEOUT,3);                                                                  
 	                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json','Content-Length: ' . strlen($itemParams)));                                                                                                                   
  
  	               $result = curl_exec($ch);
@@ -255,5 +260,25 @@ class PPLS_Discussions_Model_Discussions extends Mage_Core_Model_Abstract
 
 	}
 
+	private function initDiplableAttributes()
+	{
+		$displayAttributes = array();
+		$attributes = Mage::getSingleton('eav/config')
+			    ->getEntityType(Mage_Catalog_Model_Product::ENTITY)
+			    ->getAttributeCollection()
+			    ->addSetInfo();
+
+		foreach ($attributes as $attribute)
+		{
+			  if ($attribute->getIsVisibleOnFront()) {
+				array_push($displayAttributes,  $attribute->getStoreLabel());
+			  }
+		}
+		
+		$this->visibleProductAttributes=$displayAttributes;
+
+
+
+	}
 
 }
