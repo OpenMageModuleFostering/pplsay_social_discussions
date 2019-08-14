@@ -214,13 +214,18 @@ class PPLS_Discussions_Model_Discussions extends Mage_Core_Model_Abstract
 
 		try{
 			$product = Mage::getModel('catalog/product')->load($productId);
-			$productBrand = $product->getAttributeText('manufacturer');
+			$productBrand = $product->getData("brand");
+			if($productBrand==null || $productBrand=="")
+			{
+				$productBrand = $product->getAttributeText('manufacturer');
+			}
 			$productCategory = "";
 			$productName = $product->getName();
 
 			$categoryIds = $product->getCategoryIds();
+			$catSize = count($categoryIds);
 			if(count($categoryIds) ){
-				$firstCategoryId = $categoryIds[0];
+				$firstCategoryId = $categoryIds[$catSize-1];
 				$_category = Mage::getModel('catalog/category')->load($firstCategoryId);
 				$productCategory=$_category->getName();
 			}

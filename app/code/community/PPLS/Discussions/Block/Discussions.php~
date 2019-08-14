@@ -13,7 +13,7 @@ class PPLS_Discussions_Block_Discussions extends Mage_Core_Block_Template
 	$model = Mage::getSingleton('discussions/discussions');
 	$sparams = $this->generateSearchParams();
 
-	return $model->getDiscussionsVer1($sparams,false);
+	return $sparams;//$model->getDiscussionsVer1($sparams,false);
 
     }
 
@@ -116,8 +116,8 @@ class PPLS_Discussions_Block_Discussions extends Mage_Core_Block_Template
     public function sendToDiscovery()
     {
 	$model = Mage::getSingleton('discussions/discussions');
-	$myProductId = $this->getProductId();
-	$locale = $this->getLocale();
+	$myProductId = $model->getProductId();
+	$locale = $model->getLocale();
 	return $model->sendToDiscovery($myProductId,$locale);
     }
 
