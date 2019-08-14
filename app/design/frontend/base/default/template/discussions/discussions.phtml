@@ -1,0 +1,34 @@
+	<div id="PPLSAYContainer">
+			<script type="text/javascript">
+					//uploading ppls js and css
+				var ppls_cdn_url = "<?php echo Mage::getModel('core/variable')->loadByCode('ppls_cdn_url')->getData('store_plain_value') ?>";
+				var productName =  "<?php echo $this->getProductName();?>";
+				var baseUrl = "<?php echo Mage::getBaseUrl(); ?>";
+				var pplsCSS=document.createElement('link');
+     				pplsCSS.setAttribute("rel", "stylesheet");
+				pplsCSS.setAttribute("type", "text/css");
+				pplsCSS.setAttribute("href", ppls_cdn_url + "/css/internalStyle.css");
+				document.getElementsByTagName("head")[0].appendChild(pplsCSS);
+				var bsCSS=document.createElement('link');
+     				bsCSS.setAttribute("rel", "stylesheet");
+				bsCSS.setAttribute("type", "text/css");
+				bsCSS.setAttribute("href", ppls_cdn_url + "/css/bootstrap.min.css");
+				document.getElementsByTagName("head")[0].appendChild(bsCSS);
+  			      	var bsJS=document.createElement('script');
+			      	bsJS.setAttribute("type","text/javascript");
+			      	bsJS.setAttribute("src", ppls_cdn_url+ "/js/bootstrap.min.js");
+			      	document.getElementsByTagName("head")[0].appendChild(bsJS);
+
+				$j(document).ready(function() {
+					conversationsObj = <?php   echo $this->getDiscussions(); ?>;
+	  			      	var pplsJS=document.createElement('script');
+				      	pplsJS.setAttribute("type","text/javascript");
+				      	pplsJS.setAttribute("src", ppls_cdn_url+ "/js/conversationsRenderer.js");
+				      	document.getElementsByTagName("head")[0].appendChild(pplsJS);
+
+				});
+
+
+			</script>
+	</div>
+

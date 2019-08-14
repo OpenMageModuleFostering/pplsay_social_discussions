@@ -1,0 +1,20 @@
+{
+    "name": "OpenMageModuleFostering/PPLSAY_Social_Discussions",
+    "type": "magento-module",
+    "license": "GPL",
+    "homepage": "",
+    "description": "Bring to online retailers and their customers discussions from social networks about products offered online
+PPLSAY – what people say about products in social networks
+SaaS solution for online retail businesses of any size
+
+",
+    "authors": [
+    {
+        "name": "PPLSAY Commerce Ltd",
+        "email": "contact@pplsay.com"
+    }
+],
+    "suggest": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}

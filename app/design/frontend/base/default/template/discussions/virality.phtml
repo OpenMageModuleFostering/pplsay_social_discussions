@@ -1,0 +1,12 @@
+<?php $this->getChild('virality')->initVirality($this->getChild('child')->getProduct())?>
+<?php if ($this->getChild('virality')->count!=0): ?>
+	<div class="ppls_virality" style="width:140px;height:20px;"> 
+		<a href="<?php echo $this->getChild('virality')->getProductUrl($this->getChild('child')->getProduct()->getId())?>">
+			<img style="width:70px;height:14px;" src="<?php echo $this->getChild('virality')->getLink() ?>"><span style="margin-left:5px">(<?php echo $this->getChild('virality')->count?>)</span></a>
+	</div>
+<?php endif; ?>
+<!--<span style="color:red;"><h1><?php echo $this->getChild('virality')->debug; ?> </h1></span>-->
+<?php echo $this->getChildHtml('child') ?>
+
+
+
