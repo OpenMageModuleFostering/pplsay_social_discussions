@@ -35,8 +35,7 @@ class PPLS_Discussions_AjaxController extends Mage_Core_Controller_Front_Action
 	    $model = Mage::getSingleton('discussions/discussions');
 	    $productId = $this->getRequest()->getParam("productId");
 	    $locale = $this->getRequest()->getParam("locale");
-	    $model->setProductId($productId);
-	    $model->setLocale($locale);
+	    $model->setProductId($locale);
 	    $this->renderLayout();
 	}
 

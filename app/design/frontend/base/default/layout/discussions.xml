@@ -12,6 +12,12 @@
   <discussions_ajax_feedback>
     <block type="discussions/discussions" name="root" output="toHtml" template="discussions/feedbackajax.phtml" />
   </discussions_ajax_feedback>
+  <discussions_ajax_pview>
+    <block type="discussions/discussions" name="root" output="toHtml" template="discussions/pviewajax.phtml" />
+  </discussions_ajax_pview>
+  <discussions_ajax_discover>
+    <block type="discussions/discussions" name="root" output="toHtml" template="discussions/discoverajax.phtml" />
+  </discussions_ajax_discover>
 
 <catalog_product_view>
   	<reference name="product.info">

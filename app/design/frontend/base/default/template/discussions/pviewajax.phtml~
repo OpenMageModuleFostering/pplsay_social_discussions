@@ -1,0 +1,3 @@
+<div id='PViewAjaxResult'>			
+   <?php   echo $this->productView(); ?>
+</div>

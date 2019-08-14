@@ -1,6 +1,6 @@
 <?php $this->getChild('virality')->initVirality($this->getChild('child')->getProduct())?>
 <?php if ($this->getChild('virality')->count!=0): ?>
-	<div class="ppls_virality" style="height:20px;line-height: normal;" title="Click to see product discussions from socila networks"> 
+	<div class="ppls_virality" style="height:20px;line-height: normal;" title="Click to see product discussions from social networks"> 
 		<a id="PPLSayDiscussionsLink" href="<?php echo $this->getChild('virality')->getProductUrl($this->getChild('child')->getProduct()->getId())?>#PPLSAYContainer">
 			<img style="max-width:65px;width:60%;height:14px;float:left" src="<?php echo $this->getChild('virality')->getLink() ?>"><span style="float:left;margin-left:0.5em;width:30%;max-width:50px;line-height: normal;font-size:13px">(<?php echo $this->getChild('virality')->count?>)</span></a>
 	</div>

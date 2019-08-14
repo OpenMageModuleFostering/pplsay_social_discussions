@@ -24,7 +24,7 @@ class PPLS_Discussions_Model_Discussions extends Mage_Core_Model_Abstract
 
 			$client_url = $this->getPPLSayBaseURL().'/rest/conversations/ver1/'.$callName;
 
-			$searchParams = "{\"account_id\":\"".$account_id."\" ,\"locale\":\"".$local."\",".substr($searchParams, 1);
+			$searchParams = "{\"account_id\":\"".$account_id."\",".substr($searchParams, 1);
 
 
 
@@ -33,6 +33,7 @@ class PPLS_Discussions_Model_Discussions extends Mage_Core_Model_Abstract
 			curl_setopt($ch, CURLOPT_POSTFIELDS,$searchParams);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json','Content-Length: ' . strlen($searchParams)));
+			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT,2);                                                                  
 
 			$result = curl_exec($ch);
 			curl_close($ch);
@@ -55,6 +56,11 @@ class PPLS_Discussions_Model_Discussions extends Mage_Core_Model_Abstract
 	//Note session in this case (php limit) is request limited => each request will refresh counts even if it's pagenation
 	public function generateDiscussionCounts($collection)
 	{
+		$virality_flag = Mage::getModel('core/variable')->loadByCode('ppls_virality_flag')->getData('store_plain_value');
+		if($virality_flag!="off" && $virality_flag!="on")
+		{
+			$virality_flag="on";
+		}
 		$counts = array();
 		$productNames = array();
 		foreach ($collection->getItems() as $_itemId => $_item) {
@@ -64,7 +70,7 @@ class PPLS_Discussions_Model_Discussions extends Mage_Core_Model_Abstract
 			$productNamesStr = json_encode($productNames);
 			$account_id=$this->getPPLSayAccount();
 
-			$client_url = $this->getPPLSayBaseURL().'/rest/conversations/ver1/multi_count_by_id/'.$account_id;
+			$client_url = $this->getPPLSayBaseURL().'/rest/conversations/ver1/multi-count-by-id/'.$account_id."?showvirality=".$virality_flag;
 
 
 
@@ -73,6 +79,7 @@ class PPLS_Discussions_Model_Discussions extends Mage_Core_Model_Abstract
 			curl_setopt($ch, CURLOPT_POSTFIELDS,$productNamesStr);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json','Content-Length: ' . strlen($productNamesStr)));
+			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT,2);                                                                  
 
 			$result = curl_exec($ch);
 			$jsonResult = json_decode($result,true);
@@ -102,6 +109,7 @@ class PPLS_Discussions_Model_Discussions extends Mage_Core_Model_Abstract
 			curl_setopt($ch, CURLOPT_POSTFIELDS,$discussionParams);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json','Content-Length: ' . strlen($discussionParams)));
+			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT,2);                                                                  
 
 			$result = curl_exec($ch);
 			curl_close($ch);
@@ -139,6 +147,7 @@ class PPLS_Discussions_Model_Discussions extends Mage_Core_Model_Abstract
 			curl_setopt($ch,CURLOPT_POSTFIELDS,$postData);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json','Content-Length: ' .$postlength));
+			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT,2);                                                                  
 			$response = curl_exec($ch);
 
 			//close connection
@@ -194,5 +203,52 @@ class PPLS_Discussions_Model_Discussions extends Mage_Core_Model_Abstract
 		}
 		return $accountID;
 	}
+
+
+
+
+
+	public function sendToDiscovery($productId,$locale)
+	{
+
+
+		try{
+			$product = Mage::getModel('catalog/product')->load($productId);
+			$productBrand = $product->getAttributeText('manufacturer');
+			$productCategory = "";
+			$productName = $product->getName();
+
+			$categoryIds = $product->getCategoryIds();
+			if(count($categoryIds) ){
+				$firstCategoryId = $categoryIds[0];
+				$_category = Mage::getModel('catalog/category')->load($firstCategoryId);
+				$productCategory=$_category->getName();
+			}
+	
+			$accountID= $this->getPPLSayAccount();
+			$client_url = $this->getPPLSayBaseURL().'/rest/conversations/ver1/discoverItems/'.$accountID;
+	
+			$itemParams = "[{\"accountItemID\":\"$productId\",\"accountItemName\":\"$productName\",\"accountBrand\":\"$productBrand\",\"accountCategory\":\"$productCategory\",\"locale\":\"$locale\"}]";
+
+			$ch = curl_init($client_url);                                                                      
+			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
+			curl_setopt($ch, CURLOPT_POSTFIELDS,$itemParams);                                                                  
+	                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);    
+			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT,2);                                                                  
+	                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json','Content-Length: ' . strlen($itemParams)));                                                                                                                   
+ 
+ 	               $result = curl_exec($ch);
+			curl_close($ch);
+			return $result;
+	
+		} catch (Exception $e) {
+			return "Sdfsdfdsfsdfsdf";
+		}
+	
+	
+ 	       return null;
+
+	}
+
 
 }

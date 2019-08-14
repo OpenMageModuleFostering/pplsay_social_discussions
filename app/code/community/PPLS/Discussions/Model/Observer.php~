@@ -2,6 +2,7 @@
  
 class PPLS_Discussions_Model_Observer
 {
+
 /*This observer listening to event of loading product price block , could be on catalog/product page
 The flow:   product_price load event=> insertBlock observer => virality.phtml => initVirality of virality block=> get virality counts from session stored by  getDiscussionCounts (see below function)
 */
@@ -40,7 +41,7 @@ The flow:   product_price load event=> insertBlock observer => virality.phtml =>
  		    $model->setProductId($product->getId());
 
 		    $discussions_block=$_block->getLayout()->createBlock('discussions/discussions');
-		    $discussions_block->setTemplate('discussions/prod_discussions.phtml');
+		    $discussions_block->setTemplate('discussions/discussions_tab.phtml');
 		    /*Clone block instance*/
 		    $_child = clone $_block;
 		    /*set another type for block*/
@@ -48,7 +49,7 @@ The flow:   product_price load event=> insertBlock observer => virality.phtml =>
 		    /*set child for block*/
 		    $_block->setChild('child', $_child);
 		    /*set our template*/
-		    $_block->setTemplate('discussions/prod_discussions.phtml');
+		    $_block->setTemplate('discussions/discussions_tab.phtml');
 		    $_block->setChild('discussions',$discussions_block);
 			
 		}
@@ -70,6 +71,8 @@ Note:session in this case (php limit) is stateless and request limited => each r
 	{
 		return;
 	}
+	
+
         $productCollection = $observer->getEvent()->getCollection();
         if ($productCollection instanceof Varien_Data_Collection) {
             $productCollection->load();
@@ -80,3 +83,4 @@ Note:session in this case (php limit) is stateless and request limited => each r
 	
     }
 }
+

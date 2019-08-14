@@ -71,15 +71,12 @@ class PPLS_Discussions_Block_Discussions extends Mage_Core_Block_Template
 
     }
 
-   public function getProductId()
+    public function getProductId()
     {
 	$model = Mage::getSingleton('discussions/discussions');
-
 	$myProductId =$model->getProductId();
-	
 	if($myProductId==null && $this->getParentBlock()->getProduct()!=null)
 	{
-		
 		$myProductId=$this->getParentBlock()->getProduct()->getId();
 	}
 
@@ -114,6 +111,14 @@ class PPLS_Discussions_Block_Discussions extends Mage_Core_Block_Template
 
 	return $model->getPPLSayCDNBaseURL();
 
+    }
+
+    public function sendToDiscovery()
+    {
+	$model = Mage::getSingleton('discussions/discussions');
+	$myProductId = $model->getProductId();
+	$locale = $model->getLocale();
+	return $model->sendToDiscovery($myProductId,$locale);
     }
 
 

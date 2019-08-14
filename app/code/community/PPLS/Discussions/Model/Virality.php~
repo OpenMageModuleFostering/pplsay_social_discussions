@@ -24,7 +24,8 @@ class PPLS_Discussions_Model_Virality extends Mage_Core_Model_Abstract
 		$ch = curl_init($client_url);                                                                      
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
 		curl_setopt($ch, CURLOPT_POSTFIELDS,$itemParams);                                                                  
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);    
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT,2);                                                                  
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json','Content-Length: ' . strlen($itemParams)));                                                                                                                   
  
                 $result = curl_exec($ch);
@@ -50,7 +51,7 @@ class PPLS_Discussions_Model_Virality extends Mage_Core_Model_Abstract
 
     		curl_setopt($ch, CURLOPT_HEADER, 0);
     		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //Set curl to return the data instead of printing it to the browser.
-    		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT,10); # timeout after 10 seconds, you can increase it
+    		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT,2); # timeout after 10 seconds, you can increase it
   
     		$response = curl_exec($ch);
 		curl_close($ch);

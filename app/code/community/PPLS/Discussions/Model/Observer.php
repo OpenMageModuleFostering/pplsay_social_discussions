@@ -2,6 +2,8 @@
  
 class PPLS_Discussions_Model_Observer
 {
+	public $virality_flag="default";
+
 /*This observer listening to event of loading product price block , could be on catalog/product page
 The flow:   product_price load event=> insertBlock observer => virality.phtml => initVirality of virality block=> get virality counts from session stored by  getDiscussionCounts (see below function)
 */
@@ -18,7 +20,7 @@ The flow:   product_price load event=> insertBlock observer => virality.phtml =>
 		$_type = $_block->getType();
 		$_template = $_block->getTemplate();
 	       /*Check block type*/
-		if ($_type == 'catalog/product_price' && $_template!='catalog/product/view/tierprices.phtml') {
+		if ($this->virality_flag!="off" && $_type == 'catalog/product_price' && $_template!='catalog/product/view/tierprices.phtml') {
 		    $virality_block=$_block->getLayout()->createBlock('discussions/virality');
 		    $virality_block->setTemplate('discussions/virality.phtml');
 		    /*Clone block instance*/
@@ -70,6 +72,17 @@ Note:session in this case (php limit) is stateless and request limited => each r
 	{
 		return;
 	}
+	$this->virality_flag = Mage::getModel('core/variable')->loadByCode('ppls_virality_flag')->getData('store_plain_value');
+	if($this->virality_flag!="off" && $this->virality_flag!="on")
+	{
+		$this->virality_flag="default";
+	}
+	else if($this->virality_flag=="off")
+	{
+		return;
+	}
+	
+
         $productCollection = $observer->getEvent()->getCollection();
         if ($productCollection instanceof Varien_Data_Collection) {
             $productCollection->load();
@@ -80,3 +93,4 @@ Note:session in this case (php limit) is stateless and request limited => each r
 	
     }
 }
+

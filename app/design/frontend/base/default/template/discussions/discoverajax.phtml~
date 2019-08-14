@@ -1,0 +1,3 @@
+<div id='DiscussionsAjaxResult'>			
+   <?php   echo $this->sendToDiscovery(); ?>
+</div>

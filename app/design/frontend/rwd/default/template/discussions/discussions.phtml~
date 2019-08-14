@@ -1,12 +1,16 @@
 	<div class="container-fluid"><div id="PPLSAYContainer" class="row">
 			<script type="text/javascript">
 					//uploading ppls js and css
-				var ppls_cdn_url = "<?php echo Mage::getModel('core/variable')->loadByCode('ppls_cdn_url')->getData('store_plain_value') ?>";
+				var ppls_cdn_url = "<?php echo $this->getPPLSayCdnURL();?>";
 				var productName =  "<?php echo $this->getProductName();?>";
 				var productID = "<?php echo $this->getProductId();?>";
 				var baseUrl = "<?php echo Mage::getBaseUrl(); ?>";
 				var pplsCSS=document.createElement('link');
+				var packageName = "<?php echo Mage::getSingleton('core/design_package')->getPackageName();?>";
+				var themeName = "<?php echo Mage::getSingleton('core/design_package')->getTheme('frontend');?>";
 				var headElem = document.getElementsByTagName("head")[0];
+				var lang = "<?php echo Mage::app()->getLocale()->getLocaleCode();?>";
+				var pplsVer = "<?php echo Mage::getConfig()->getNode()->modules->PPLS_Discussions->version;?>";
      				pplsCSS.setAttribute("rel", "stylesheet");
 				pplsCSS.setAttribute("type", "text/css");
 				pplsCSS.setAttribute("href", ppls_cdn_url + "/css/internalStyle.css");
@@ -16,17 +20,10 @@
 				bsCSS.setAttribute("type", "text/css");
 				bsCSS.setAttribute("href", ppls_cdn_url + "/css/pplsay_bootstrap.min.css");
 				headElem.insertBefore(bsCSS,headElem.firstChild);
-			
-				jQuery(document).ready(function() {
-					conversationsObj = <?php   echo $this->productView(); ?>;
-	  			      	var pplsJS=document.createElement('script');
-				      	pplsJS.setAttribute("type","text/javascript");
-				      	pplsJS.setAttribute("src", ppls_cdn_url+ "/js/rwd/conversationsRenderer.js");
-				      	document.getElementsByTagName("head")[0].appendChild(pplsJS);
-
-				});
-
-
+  			      	var pplsJS=document.createElement('script');
+			      	pplsJS.setAttribute("type","text/javascript");
+			      	pplsJS.setAttribute("src", ppls_cdn_url+ "/js/rwd/conversationsRenderer.js");
+			      	document.getElementsByTagName("head")[0].appendChild(pplsJS);
 			</script>
 		</div>
 		<div id="PPLSAYLink" class="row" style="padding-left: 15px;">
