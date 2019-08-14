@@ -64,7 +64,7 @@ class PPLS_Discussions_Model_Discussions extends Mage_Core_Model_Abstract
 			$productNamesStr = json_encode($productNames);
 			$account_id=$this->getPPLSayAccount();
 
-			$client_url = $this->getPPLSayBaseURL().'/rest/conversations/ver1/multi_count_by_id/'.$account_id;
+			$client_url = $this->getPPLSayBaseURL().'/rest/conversations/ver1/multi-count-by-id/'.$account_id;
 
 
 

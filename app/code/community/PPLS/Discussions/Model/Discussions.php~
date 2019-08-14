@@ -170,6 +170,20 @@ class PPLS_Discussions_Model_Discussions extends Mage_Core_Model_Abstract
 		return $baseURL;
 	}
 
+	public function getPPLSayCDNBaseURL()
+	{
+
+		$baseURL = trim(Mage::getModel('core/variable')->loadByCode('ppls_cdn_url')->getData('store_plain_value'));
+		if($baseURL==null || $baseURL=="")
+		{
+			$baseURL = $this->defaultPPLSayURL;
+		}
+		else if(substr($baseURL, -1)=="/")
+		{
+			$baseURL=substr($baseURL, 0, -1);
+		}
+		return $baseURL;
+	}
 	public function getPPLSayAccount()
 	{
 
